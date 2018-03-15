@@ -20,7 +20,7 @@ describe('index.js', () => {
   describe('#getPackageJSON', () => {
     it('should return this package.json', () => {
       const { getPackageJSON } = require('../index');
-      
+
       const expected = require('../package.json');
       const res = getPackageJSON();
 
@@ -32,11 +32,11 @@ describe('index.js', () => {
     context('when name has a workspace like @everymundo/the-name', () => {
       it('should return the correct generated name', () => {
         const { generateMicroserviceNameFrom } = require('../index');
-        
+
         const input = { name: '@namespace/app-name', version: '2.3.4' };
         const res = generateMicroserviceNameFrom(input);
         const expected = 'app-name-v2';
-        
+
         expect(res).to.equal(expected);
       });
     });
@@ -82,9 +82,11 @@ describe('index.js', () => {
     context('when it has a custom name', () => {
       context('and it is Valid', () => {
         it('should return true', () => {
-          const input = { config: {
-            customMicroserviceName: 'app-name-v2',
-          } };
+          const input = {
+            config: {
+              customMicroserviceName: 'app-name-v2',
+            },
+          };
 
           const res = itHasAValidCustomMicroserviceName(input);
 
@@ -97,7 +99,7 @@ describe('index.js', () => {
           const input = {
             config: {
               customMicroserviceName: 'this is not a valid name',
-            }
+            },
           };
 
           const res = itHasAValidCustomMicroserviceName(input);
@@ -132,8 +134,9 @@ describe('index.js', () => {
             name: 'my-app',
             version: '1.2.0',
             config: {
-              customMicroserviceName: 'my-custom-name-v2'
-            } };
+              customMicroserviceName: 'my-custom-name-v2',
+            },
+          };
           box.stub(packageLib, 'getPackageJSON')
             .callsFake(() => packageObject);
         });
@@ -152,8 +155,8 @@ describe('index.js', () => {
             name: 'my-app',
             version: '1.2.0',
             config: {
-              customMicroserviceName: 'my-custom-name'
-            }
+              customMicroserviceName: 'my-custom-name',
+            },
           };
           box.stub(packageLib, 'getPackageJSON')
             .callsFake(() => packageObject);
