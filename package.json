@@ -1,6 +1,6 @@
 {
   "name": "@everymundo/generate-microservice-name",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "It generates the microservice name by reading the data from the projects package.json",
   "main": "index.js",
   "scripts": {
