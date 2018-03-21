@@ -5,11 +5,30 @@ const { getPackageJSON } = require('./lib/get-package-json');
 
 const nameRegExp = /^[-\w]+-v\d+$/;
 
-const generateMicroserviceNameFrom = ({ name, version }) => {
-  const majorVersionNumber = +version.substr(0, version.indexOf('.'));
-  const cleanName          = name.substr(name.lastIndexOf('/') + 1);
+const getMajorVersionNumber = (appPackageJson = getPackageJSON()) => {
+  const { version } = appPackageJson;
+  return +version.substr(0, version.indexOf('.'));
+};
 
-  const appName = `${cleanName}-v${majorVersionNumber}`;
+const getPrefixedMajorVersionNumber = (appPackageJson = getPackageJSON()) => {
+  const { version } = appPackageJson;
+  const majorVersionNumber = getMajorVersionNumber({ version });
+  return `v${majorVersionNumber}`;
+};
+
+const getCleanAppName = (appPackageJson = getPackageJSON()) => {
+  const { name } = appPackageJson;
+  return name.substr(name.lastIndexOf('/') + 1);
+};
+
+const generateMicroserviceNameFrom = ({ name, version }) => {
+  // const majorVersionNumber = +version.substr(0, version.indexOf('.'));
+  const prefixedMajorVersionNumber = getPrefixedMajorVersionNumber({ version });
+  // const cleanName          = name.substr(name.lastIndexOf('/') + 1);
+  const cleanName          = getCleanAppName({ name });
+
+  // const appName = `${cleanName}-v${majorVersionNumber}`;
+  const appName = `${cleanName}-${prefixedMajorVersionNumber}`;
 
   return appName;
 };
@@ -30,6 +49,9 @@ const getMicroserviceName = () => {
 };
 
 module.exports = {
+  getPrefixedMajorVersionNumber,
+  getMajorVersionNumber,
+  getCleanAppName,
   generateMicroserviceNameFrom,
   getMicroserviceName,
   itHasAValidCustomMicroserviceName,

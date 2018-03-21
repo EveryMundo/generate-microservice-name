@@ -28,6 +28,77 @@ describe('index.js', () => {
     });
   });
 
+  describe('#getMajorVersionNumber', () => {
+    const { getMajorVersionNumber } = require('../index');
+
+    context('passing a version', () => {
+      it('should load package.json', () => {
+        const res = getMajorVersionNumber({version: '2.3.4'});
+
+        expect(res).to.equal(2);
+      });
+    });
+
+    context('passing NO arguments', () => {
+      it('should load package.json', () => {
+        const expected = +require('../package.json').version.split('.').shift();
+        const res = getMajorVersionNumber();
+
+        expect(res).to.equal(expected);
+      });
+    });
+  });
+
+  describe('#getPrefixedMajorVersionNumber', () => {
+    const { getPrefixedMajorVersionNumber } = require('../index');
+
+    context('passing a version', () => {
+      it('should load package.json', () => {
+        const res = getPrefixedMajorVersionNumber({version: '2.3.4'});
+
+        expect(res).to.equal('v2');
+      });
+    });
+
+    context('passing NO arguments', () => {
+      it('should load package.json', () => {
+        const expected = `v${require('../package.json').version.split('.').shift()}`;
+        const res = getPrefixedMajorVersionNumber();
+
+        expect(res).to.equal(expected);
+      });
+    });
+  });
+
+  describe('#getCleanAppName', () => {
+    const { getCleanAppName } = require('../index');
+
+    context('passing a simple name', () => {
+      it('should load package.json', () => {
+        const res = getCleanAppName({name: 'simple-app'});
+
+        expect(res).to.equal('simple-app');
+      });
+    });
+
+    context('passing a name with namespace', () => {
+      it('should load package.json', () => {
+        const res = getCleanAppName({name: '@namespace/namespaced-name'});
+
+        expect(res).to.equal('namespaced-name');
+      });
+    });
+
+    context('passing NO arguments', () => {
+      it('should load package.json', () => {
+        const expected = require('../package.json').name.split('/').pop();
+        const res = getCleanAppName();
+
+        expect(res).to.equal(expected);
+      });
+    });
+  });
+
   describe('#generateMicroserviceNameFrom', () => {
     context('when name has a workspace like @everymundo/the-name', () => {
       it('should return the correct generated name', () => {
