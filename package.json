@@ -4,11 +4,11 @@
   "description": "It generates the microservice name by reading the data from the projects package.json",
   "main": "index.js",
   "scripts": {
-    "cover": "NODE_ENV=test istanbul cover -x '*test.js' _mocha -- -R spec",
-    "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
-    "check-lint": "eslint *.js lib/*.js test/*.js routes/*.js",
-    "fix-lint": "eslint --fix *.js lib/*.js test/*.js routes/*.js",
-    "test": "NODE_ENV=test LOG_LEVEL=test mocha -R spec $@"
+    "cover": "LOG_LEVEL=trace nyc -x test --reporter=lcov --reporter=text mocha test --recursive",
+    "check-coverage": "nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "check-lint": "standard --env=mocha *.js lib/*.js spec/*.js spec/lib/*.js",
+    "fix-lint": "standard --env=mocha --fix *.js lib/*.js test/*.js",
+    "test": "NODE_ENV=test LOG_LEVEL=test mocha --recursive $@"
   },
   "config": {
     "ghooks": {
@@ -28,14 +28,15 @@
   },
   "homepage": "https://github.com/EveryMundo/generate-microservice-name#readme",
   "dependencies": {
-    "@everymundo/global-root-dir": "^1.1.0"
+    "@everymundo/global-root-dir": "^1.1.1"
   },
   "devDependencies": {
-    "@everymundo/cleanrequire": "^1.1.1",
-    "chai": "^4.1.2",
-    "ghooks": "^2.0.2",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^5.0.4",
-    "sinon": "^4.4.8"
+    "@everymundo/cleanrequire": "^1.2.1",
+    "chai": "^4.2.0",
+    "ghooks": "^2.0.4",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "sinon": "^7.3.2",
+    "standard": "^12.0.1"
   }
 }
